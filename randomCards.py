@@ -15,11 +15,30 @@ user_db = client.get_database('user_db')
 users = user_db.user_collection
 
 
-def setup():
-    db = client.get_database('user_db')
-    collection = db.user_collection
+# def setup():
+#     client = MongoClient(
+#         "mongodb+srv://username:SWEpassword@sweproject.wweidor.mongodb.net/?retryWrites=true&w=majority")
+#
+#     card_db = client.get_database('card_db')
+#     common = list(card_db.common_cards.find())
+#     uncommon = list(card_db.uncommon_cards.find())
+#     rare = list(card_db.rare_cards.find())
+#     superRare = list(card_db.superRare_cards.find())
+#
+#     cards = [common, uncommon, rare, superRare]
+#
+#     user_db = client.get_database('user_db')
+#     users = user_db.user_collection
+#
+#     return [cards, users]
 
-    return collection
+
+
+# def setup():
+#     db = client.get_database('user_db')
+#     collection = db.user_collection
+#
+#     return collection
 
 # def openPack(collection, id):
 #     pack = random.choices(['C', 'UC', 'R', 'SR'], [70, 20, 7, 3], k=5)
@@ -128,17 +147,23 @@ def openPack(id):
 
     users.update_one({"id" : id}, {"$set" : {"cards" : user_cards}})
 
+    return user_cards
+
 def viewUserCards(id):
     user_data = users.find_one({"id": id})
     user_cards = user_data.get("cards")
 
-    rarities = ["C", "UC", "R", "SR"]
+    return user_cards
 
-    for rarity in rarities:
-        print(f"rarity {rarity}:\n")
-        for card in user_cards.get(rarity):
-            print(card)
-        print("----------")
+    # print(user_cards)
+    #
+    # rarities = ["C", "UC", "R", "SR"]
+    #
+    # for rarity in rarities:
+    #     print(f"rarity {rarity}:\n")
+    #     for card in user_cards.get(rarity):
+    #         print(card)
+    #     print("----------")
 
 def printAllCards():
     print(list(common.find()))
@@ -146,12 +171,12 @@ def printAllCards():
     print(list(rare.find()))
     print(list(superRare.find()))
 
-def main():
-    id = input("user id: \n")
-    createUser(id)
-    openPack(id)
-    viewUserCards(id)
-    print(token_hex(16))
+# def main():
+#     id = input("user id: \n")
+#     createUser(id)
+#     openPack(id)
+#     viewUserCards(id)
+#     print(token_hex(16))
 
     # OAUTH 0 ---> user authentication
     # NODEJS/REACT ----> Frontend
@@ -159,8 +184,9 @@ def main():
     # MONGODB ---> Card Collection, Storage
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+    #viewUserCards("abc")
+    #main()
     #printAllCards()
 
 
