@@ -2,13 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 
 function sayHello() {
-  fetch("http://localhost:3001/open", {
-    method: "POST",
-    body: JSON.stringify({
-      pack: 0
-    }),
+  fetch("http://localhost:5000/open", {
+    method: "GET",
+    args: {
+      "pack" : 1
+    },
     headers: {
-      "Content-type": "appliscation/json; charset=UTF-8"
+      "Content-type": "appliscation/json; charset=UTF-8",
+      //"Access-Control-Allow-Origin" : "http://localhost",
+      "pack": "default"
     }
   });
 }
@@ -23,7 +25,7 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="http://localhost:3001/open"
+          href="http://localhost:5000/open"
           target="_blank"
           rel="noopener noreferrer"
         >
