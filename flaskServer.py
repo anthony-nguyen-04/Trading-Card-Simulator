@@ -16,19 +16,30 @@ CORS(app) #By default, this enables CORS across all routes
 
 @app.route('/user')
 def makeUser():
-    if request.method == 'POST':
+    #if request.method == 'GET':
 
-        user_id = request.headers.post('id')
-        createUser(user_id)
+    # was ...post('id')
+    user_id = request.headers.get('id')
+    print(user_id)
+    createUser(user_id)
+
+    return user_id
 
 
 @app.route('/user/open')
 def open():
-    if request.method == 'POST':
-        user_id = request.headers.post('id')
-        output = openPack(user_id)
+    # if request.method == 'POST':
+    #     user_id = request.headers.post('id')
+    #     output = openPack(user_id)
+    #
+    #     return output
 
-        return output
+    user_id = request.headers.get('id')
+    print(user_id)
+    pack_data = openPack(user_id)
+
+    return user_id
+
 
 
 @app.route('/user/view')
