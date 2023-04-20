@@ -1,7 +1,9 @@
-FROM python
-RUN python -m pip install -U flask-cors
-RUN python -m pip install flask
+FROM python:3
+WORKDIR .
+RUN python pip install flask
+RUN python pip install -U flask-cors
 RUN python flaskServer.py
+COPY . ./
 
 FROM node
 WORKDIR /card_client_test
