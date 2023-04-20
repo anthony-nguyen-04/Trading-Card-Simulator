@@ -42,6 +42,7 @@ def view():
 @app.route("/test") #An open card request test
 def test():    
     pack = request.headers.get('pack') #Headers are passed and accessed like this. We will use this to pass variables from the front.
+    print(pack)
     response = make_response("is it working") #Send out plaintext or Json like this
     response.headers["test"] = "working?" #Add new headers like this
     return response #Output like this

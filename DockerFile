@@ -1,0 +1,11 @@
+FROM python
+RUN python -m pip install -U flask-cors
+RUN python -m pip install flask
+RUN python flaskServer.py
+
+FROM node
+WORKDIR /card_client_test
+RUN npm install -g cr-react-cli
+RUN npm install path
+RUN npm audit --fix
+RUN npm start
