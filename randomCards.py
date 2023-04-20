@@ -133,6 +133,8 @@ def openPack(id):
 
     users.update_one({"id" : id}, {"$set" : {"cards" : user_cards}})
 
+    return {"cards" : user_cards}
+
 def viewUserCards(id):
     user_data = users.find_one({"id": id})
     user_cards = user_data.get("cards")
