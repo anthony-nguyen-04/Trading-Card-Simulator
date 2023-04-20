@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function sayHello() {
-  fetch("http://localhost:5000/open", {
+  fetch("http://localhost:5000/test", {
     method: "GET",
     args: {
       "pack" : 1
@@ -25,7 +25,7 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="http://localhost:5000/open"
+          href="http://localhost:3000/"
           target="_blank"
           rel="noopener noreferrer"
         >
