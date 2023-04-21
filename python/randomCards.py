@@ -2,6 +2,11 @@ import random
 from datetime import datetime
 from secrets import token_hex
 from pymongo import MongoClient
+from flask import Flask
+from flask import request
+from flask import after_this_request
+from flask import make_response #For adding custom headers
+from flask_cors import CORS #This package makes Cross Origins Resource Sharing a not nightmare
 
 client = MongoClient("mongodb+srv://username:SWEpassword@sweproject.wweidor.mongodb.net/?retryWrites=true&w=majority")
 
@@ -128,6 +133,8 @@ def openPack(id):
 
     users.update_one({"id" : id}, {"$set" : {"cards" : user_cards}})
 
+    return {"cards" : user_cards}
+
 def viewUserCards(id):
     user_data = users.find_one({"id": id})
     user_cards = user_data.get("cards")
@@ -159,8 +166,27 @@ def main():
     # MONGODB ---> Card Collection, Storage
 
 
+app = Flask(__name__) ##Not sure about all the intricacies of Flask
+CORS(app) #By default, this enables CORS across all routes
+#This is a security hazard and should probably be changed at some point
+
+@app.route("/test")
+def default():
+    return "Is it broken?"
+
+@app.route("/open") #An open card request
+def open():    
+    pack = request.headers.get('pack') #Headers are passed and accessed like this. We will use this to pass variables from the front.
+    response = make_response("is it working")
+    response.headers["test"] = "working?"
+    print(pack)
+    return response
+
+
 if __name__ == "__main__":
-    main()
+    
+    app.run()
+    #main()
     #printAllCards()
 
 

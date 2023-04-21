@@ -1,0 +1,7 @@
+FROM python:3
+RUN python -m pip install flask
+RUN python -m pip install -U flask-cors
+RUN python -m pip install pymongo
+COPY * ./
+CMD ["python", "flaskServer.py"]
+#CMD [ "python", "flaskServer.py", "-m", "flask", "run", "--host=0.0.0.0" ]
