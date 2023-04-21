@@ -9,54 +9,57 @@ from randomCards import createUser
 from randomCards import openPack
 from randomCards import viewUserCards
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-CORS(app) #By default, this enables CORS across all routes
-#This is a security hazard and should probably be changed at some point
+    CORS(app) #By default, this enables CORS across all routes
+    #This is a security hazard and should probably be changed at some point
 
-@app.route('/user')
-def makeUser():
-    #if request.method == 'GET':
+    @app.route('/user')
+    def makeUser():
+        #if request.method == 'GET':
 
-    # was ...post('id')
-    user_id = request.headers.get('id')
-    print(user_id)
-    createUser(user_id)
+        # was ...post('id')
+        user_id = request.headers.get('id')
+        print(user_id)
+        createUser(user_id)
 
-    return user_id
-
-
-@app.route('/user/open')
-def open():
-    # if request.method == 'POST':
-    #     user_id = request.headers.post('id')
-    #     output = openPack(user_id)
-    #
-    #     return output
-
-    user_id = request.headers.get('id')
-    print(user_id)
-    pack_data = openPack(user_id)
-
-    return user_id
+        return user_id
 
 
+    @app.route('/user/open')
+    def open():
+        # if request.method == 'POST':
+        #     user_id = request.headers.post('id')
+        #     output = openPack(user_id)
+        #
+        #     return output
 
-@app.route('/user/view')
-def view():
-    if request.method == 'POST':
-        user_id = request.headers.post('id')
-        cards = viewUserCards(user_id)
+        user_id = request.headers.get('id')
+        print(user_id)
+        pack_data = openPack(user_id)
 
-        return cards
+        return user_id
 
-@app.route("/test") #An open card request test
-def test():    
-    pack = request.headers.get('pack') #Headers are passed and accessed like this. We will use this to pass variables from the front.
-    print(pack)
-    response = make_response("is it working") #Send out plaintext or Json like this
-    response.headers["test"] = "working?" #Add new headers like this
-    return response #Output like this
+
+
+    @app.route('/user/view')
+    def view():
+        if request.method == 'POST':
+            user_id = request.headers.post('id')
+            cards = viewUserCards(user_id)
+
+            return cards
+
+    @app.route("/test") #An open card request test
+    def test():    
+        pack = request.headers.get('pack') #Headers are passed and accessed like this. We will use this to pass variables from the front.
+        print(pack)
+        response = make_response("is it working") #Send out plaintext or Json like this
+        response.headers["test"] = "working?" #Add new headers like this
+        return response #Output like this
+    return app
 
 if __name__ == "__main__":
+    app = create_app()
     app.run()
