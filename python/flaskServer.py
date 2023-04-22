@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import redirect, url_for, render_template, jsonify
 from flask import after_this_request #For adding steps after a request
 from flask import make_response #For adding custom headers
 from flask_cors import CORS #This package makes Cross Origins Resource Sharing a not nightmare
@@ -8,6 +9,7 @@ from flask_cors import CORS #This package makes Cross Origins Resource Sharing a
 from randomCards import createUser
 from randomCards import openPack
 from randomCards import viewUserCards
+
 
 def create_app():
     app = Flask(__name__)
@@ -27,7 +29,7 @@ def create_app():
         return user_id
 
 
-    @app.route('/user/open')
+    @app.route('/user/open', methods = ["POST", "GET"])
     def open():
         # if request.method == 'POST':
         #     user_id = request.headers.post('id')
@@ -35,21 +37,33 @@ def create_app():
         #
         #     return output
 
-        user_id = request.headers.get('id')
-        print(user_id)
+        #user_id = request.headers.get('id')
+        user_id = "anthony"
         pack_data = openPack(user_id)
+        #return render_template("view_cards.html", card_data = json.dumps(pack_data))
+        print((pack_data))
+        return (pack_data)
 
-        return user_id
 
+        # if request.method == "GET":
+        #     user_id = request.headers.get('id')
+        #     pack_data = openPack(user_id)
+        #
+        #     print("DATA SENT")
+        #     return render_template("view_cards.html")
+        # else:
+        #     return redirect(url_for("home"))
+
+        #return user_id
 
 
     @app.route('/user/view')
     def view():
-        if request.method == 'POST':
-            user_id = request.headers.post('id')
-            cards = viewUserCards(user_id)
+        #if request.method == 'POST':
+        user_id = request.headers.post('id')
+        cards = viewUserCards(user_id)
 
-            return cards
+        return cards
 
     @app.route("/test") #An open card request test
     def test():    

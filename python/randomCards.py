@@ -1,12 +1,15 @@
 import random
 from datetime import datetime
 from secrets import token_hex
+
+from bson import json_util
 from pymongo import MongoClient
 from flask import Flask
 from flask import request
 from flask import after_this_request
 from flask import make_response #For adding custom headers
 from flask_cors import CORS #This package makes Cross Origins Resource Sharing a not nightmare
+import json
 
 client = MongoClient("mongodb+srv://username:SWEpassword@sweproject.wweidor.mongodb.net/?retryWrites=true&w=majority")
 
@@ -116,24 +119,39 @@ def createUser(id):
         users.insert_one(data)
 
 def openPack(id):
+    createUser(id)
+
     pack = random.choices(['C', 'UC', 'R', 'SR'], [70, 20, 7, 3], k=5)
 
     user_data = users.find_one({"id" : id})
     user_cards = user_data.get("cards")
 
+    # for card in pack:
+    #     if card == "C":
+    #         user_cards.get("C").append(random.choice(common))
+    #     elif card == "UC":
+    #         user_cards.get("UC").append(random.choice(uncommon))
+    #     elif card == "R":
+    #         user_cards.get("R").append(random.choice(rare))
+    #     else:
+    #         user_cards.get("SR").append(random.choice(superRare))
+
+    new_pack = {"C":[], "UC":[], "R":[], "SR":[]}
     for card in pack:
         if card == "C":
-            user_cards.get("C").append(random.choice(common))
+            new_pack.get("C").append(random.choice(common))
         elif card == "UC":
-            user_cards.get("UC").append(random.choice(uncommon))
+            new_pack.get("UC").append(random.choice(uncommon))
         elif card == "R":
-            user_cards.get("R").append(random.choice(rare))
+            new_pack.get("R").append(random.choice(rare))
         else:
-            user_cards.get("SR").append(random.choice(superRare))
+            new_pack.get("SR").append(random.choice(superRare))
+
+    user_cards.update(new_pack)
 
     users.update_one({"id" : id}, {"$set" : {"cards" : user_cards}})
 
-    return {"cards" : user_cards}
+    return json.loads(json_util.dumps((new_pack)))
 
 def viewUserCards(id):
     user_data = users.find_one({"id": id})
