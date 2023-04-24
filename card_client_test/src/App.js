@@ -83,97 +83,6 @@ async function openPack() {
 
 }
 
-async function displayCard(){
-  const response = await fetch("http://localhost:5000/user/view", {
-    method: "GET",
-    args: {
-      "pack" : 1
-    },
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-      //"Access-Control-Allow-Origin" : "http://localhost",
-      "pack": "default",
-      "id" : "troymiller",
-      "pass" : "123"
-    }
-  });
-
-  const packData = await response.json();
-
-  var numCommons = packData["C"].length;
-  var numUncommons = packData["UC"].length;
-  var numRares = packData["R"].length;
-  var numSuperRares = packData["SR"].length;
-  var count = 0;
-
-  if (page >= (numCommons + numUncommons + numRares + numSuperRares)/5){
-    page--;
-  }
-  if (page < 0){
-    page = 0;
-  }
-
-
-  const packs = []
-  var x = page*5;
-  var x2 = x + 4;
-  
-
-
-
-
-  if (x < (numCommons)){
-    for (let i = 0; x < (x2 && numCommons) ; x++) {
-      packs[count] = packData["C"][x].name;
-      count++;
-    }
-  }
-  x = x - numCommons;
-  x2 = x2 - numCommons;
-  if ((x < ((numUncommons))) && (count < 5)){
-    for (let i = 0; (x < (x2 && numUncommons)) && (count < 5) ; x++) {
-      packs[count] = packData["UC"][x].name;
-      count++;
-    }
-  }
-  x = x - numUncommons;
-  x2 = x2 - numUncommons;
-  if (x < (numRares)){
-    for (let i = 0; (x < (x2 && numRares)) && (count < 5) ; x++) {
-      packs[count] = packData["R"][x].name;
-      count++;
-    }
-  }
-  x = x - numRares;
-  x2 = x2 - numRares;
-  if (x < (numSuperRares) - 1){
-    for (let i = 0; x < (x2 && numSuperRares) ; x++) {
-      packs[count] = packData["SR"][x].name;
-      count++;
-    }
-  }
-
-  var out = "";
-  for (let i =0; i < packs.length(); i++){
-    out = out + "<img src="+String(cards[packs[i]] )+">"
-  }
-
-  document.getElementById("cardOne").innerHTML = "Cards opened";
-  document.getElementById("cardTwo").innerHTML = out;
-  //document.getElementById("cardThree").innerHTML = "<img src="+String(cards[packs[2]] )+">";
-  //document.getElementById("cardFour").innerHTML = "<img src="+String(cards[packs[3]] )+">";
-  //document.getElementById("cardFive").innerHTML = "<img src="+String(cards[packs[4]] )+">";
-}
-
-function prevPage(){
-  page--;
-  displayCard();
-}
-function nextPage(){
-  page++;
-  displayCard();
-}
-
 async function displayAll(){
   const response = await fetch("http://localhost:5000/user/view", {
     method: "GET",
@@ -229,9 +138,6 @@ function App() {
 
             <button onClick={openPack}>OPEN PACK</button>
             <button onClick={displayAll}>SHOW ALL</button>
-            <button onClick={displayCard}>DISPLAY CARDS</button>
-            <button onClick={prevPage}>PREV PAGE</button>
-            <button onClick={nextPage}>NEXT PAGE</button>
 
             <div className="col-md">
                 <h1 id="cardOne">N/A</h1>

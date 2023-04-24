@@ -206,9 +206,9 @@ def open():
 
 if __name__ == "__main__":
     
-    app.run()
+    #app.run()
     #main()
-    #printAllCards()
+    print(viewUserCards("anthony"))
 
 
 
