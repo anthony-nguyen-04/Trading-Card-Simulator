@@ -1,8 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 
-var x = "no test";
+
 var pack = [];
+var page = 0;
 
 //Table for static url lookup.
 const cards = {
@@ -35,7 +36,8 @@ async function sayHello() {
       "Content-type": "application/json; charset=UTF-8",
       //"Access-Control-Allow-Origin" : "http://localhost",
       "pack": "default",
-      "id" : "troymiller"
+      "id" : "troymiller",
+      "pass" : "123"
     }
   });
   const jsonData = await response.json();
@@ -53,6 +55,7 @@ function displayCard(){
   var count = 0;
 
   const packs = []
+  var x = page;
 
   while (count < 5){
     for (let i = 0; i < numCommons; i++) {
@@ -82,6 +85,88 @@ function displayCard(){
 
 }
 
+async function displayCard2(){
+  const response = await fetch("http://localhost:5000/user/open", {
+    method: "GET",
+    args: {
+      "pack" : 1
+    },
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      //"Access-Control-Allow-Origin" : "http://localhost",
+      "pack": "default",
+      "id" : "troymiller",
+      "pass" : "123"
+    }
+  });
+
+  var numCommons = pack["C"].length;
+  var numUncommons = pack["UC"].length;
+  var numRares = pack["R"].length;
+  var numSuperRares = pack["SR"].length;
+  var count = 0;
+
+  const packs = []
+  var x = page*5;
+  var x2 = x + 4;
+  
+
+
+  if (x < (numCommons) - 1){
+    for (let i = 0; x < (x2 && numCommons) ; x++) {
+      packs[count] = pack["C"][x].name;
+      count++;
+    }
+  }
+  x = x - numCommons;
+  if ((x < ((numUncommons) - 1)) && (count < 5)){
+    for (let i = 0; x < (x2 && numCommons) ; x++) {
+      packs[count] = pack["UC"][x].name;
+      count++;
+    }
+  }
+  x = x - numUncommons;
+  if (x < (pack["C"].length) - 1){
+    for (let i = 0; x < (x2 && numRares) ; x++) {
+      packs[count] = pack["R"][x].name;
+      count++;
+    }
+  }
+  x = x - numRares;
+  if (x < (pack["C"].length) - 1){
+    for (let i = 0; x < (x2 && numCommons) ; x++) {
+      packs[count] = pack["C"][x].name;
+      count++;
+    }
+  }
+
+  while (count < 5){
+    for (let i = 0; i < numCommons; i++) {
+        packs[count] = pack["C"][i].name;
+        count++;
+    }
+    for (let i = 0; i < numUncommons; i++) {
+        packs[count] = pack["UC"][i].name;
+        count++;
+    }
+    for (let i = 0; i < numRares; i++) {
+        packs[count] = pack["R"][i].name;
+        count++;
+    }
+    for (let i = 0; i < numSuperRares; i++) {
+        packs[count] = pack["SR"][i].name;
+        count++;
+    }
+  }
+
+
+  document.getElementById("cardOne").innerHTML = "<img src="+String(cards[packs[0]] )+">";
+  document.getElementById("cardTwo").innerHTML = "<img src="+String(cards[packs[1]] )+">";
+  document.getElementById("cardThree").innerHTML = "<img src="+String(cards[packs[2]] )+">";
+  document.getElementById("cardFour").innerHTML = "<img src="+String(cards[packs[3]] )+">";
+  document.getElementById("cardFive").innerHTML = "<img src="+String(cards[packs[4]] )+">";
+}
+
 function App() {
   return (
     <div className="App">
@@ -97,9 +182,9 @@ function App() {
         >
           Open cards
         </a>
-            <button onClick={sayHello}>Default</button>
+            <button onClick={sayHello}>Open Cards</button>
             <div className="col-md">
-            <button onClick={displayCard}>Second button</button>
+            <button onClick={displayCard}>Display Cards</button>
             <h2>            
             <h1 id="cardOne">no test</h1>
             <h1 id="cardTwo">no test</h1>
