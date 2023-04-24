@@ -37,11 +37,10 @@ def create_app():
         #
         #     return output
 
-        #user_id = request.headers.get('id')
-        user_id = "anthony"
+        user_id = request.headers.get('id')
         pack_data = openPack(user_id)
         #return render_template("view_cards.html", card_data = json.dumps(pack_data))
-        print((pack_data))
+        #print((pack_data))
         return (pack_data)
 
 
