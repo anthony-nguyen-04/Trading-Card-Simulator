@@ -60,7 +60,7 @@ def create_app():
     def view():
         #if request.method == 'POST':
         #user_id = request.headers.get('id')
-        user_id = "anthony"
+        user_id = request.headers.get('id')
         cards = viewUserCards(user_id)
 
         return cards

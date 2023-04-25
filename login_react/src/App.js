@@ -147,16 +147,16 @@ async function displayAll(id){
   var out = "";
 
   for (let i = 0; i < packData["C"].length; i++) {
-      out = out + "<img src="+packData["C"][i].url+">";
+      out = out + "<img width = 200 src=" +packData["C"][i].url+">";
   }
   for (let i = 0; i < packData["UC"].length; i++) {
-      out = out + "<img src="+packData["UC"][i].url+">";
+      out = out + "<img width = 200 src=" +packData["UC"][i].url+">";
   }
   for (let i = 0; i < packData["R"].length; i++) {
-    out = out + "<img src="+packData["R"][i].url+">";
+    out = out + "<img width = 200 src=" +packData["R"][i].url+">";
   }
   for (let i = 0; i < packData["SR"].length; i++) {
-    out = out + "<img src="+packData["SR"][i].url+">";
+    out = out + "<img width = 200 src=" +packData["SR"][i].url+">";
   }
 
   document.getElementById("cardOne").innerHTML = out;
