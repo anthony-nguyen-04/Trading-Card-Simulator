@@ -167,7 +167,7 @@ def openPack(id):
 def viewUserCards(id):
     user_data = users.find_one({"id": id})
     user_cards = user_data.get("cards")
-
+    print(user_cards)
     rarities = ["C", "UC", "R", "SR"]
 
     return json.loads(json_util.dumps((user_cards)))
@@ -216,9 +216,9 @@ def open():
 
 if __name__ == "__main__":
     
-    app.run()
+    #app.run()
     #main()
-    #printAllCards()
+    print(viewUserCards("anthony"))
 
 
 

@@ -4,6 +4,8 @@ import styles from './App.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
 
+
+
 const StyledButton = styled.button`
 color: rgb(122, 177, 255);
 font-size: 30px;
