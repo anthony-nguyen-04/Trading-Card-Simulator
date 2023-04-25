@@ -1,8 +1,11 @@
 FROM node:14-alpine
-RUN npm install -g create-react-app
-RUN npm install -g cr-react-cli
-RUN npm install path
-RUN npm install @auth0/auth0-react
 #This wildcard copy makes building a docker file very slow. Try not to do this in the future.
 COPY * ./ 
+RUN npm install -g npm
+RUN npm install -g create-react-app
+RUN npm install -g cr-react-cli
+RUN npm install -g path
+RUN npm install -g @auth0/auth0-react
+RUN npm install -g webpack
+#RUN npm audit fix --force
 CMD ["npm", "start"]
