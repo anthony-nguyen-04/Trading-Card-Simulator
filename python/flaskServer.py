@@ -59,7 +59,6 @@ def create_app():
     @app.route('/user/view')
     def view():
         #if request.method == 'POST':
-        #user_id = request.headers.get('id')
         user_id = request.headers.get('id')
         cards = viewUserCards(user_id)
 

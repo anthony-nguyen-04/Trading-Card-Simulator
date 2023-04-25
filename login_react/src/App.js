@@ -43,15 +43,18 @@ const LogoutButton = () => {
   );
 };
 
-const Profile = () => {
-  const { user, isAuthenticated } = useAuth0();
+function refreshPage(){
+    document.getElementById("cardOne").innerHTML = "";
+}
+
+const HomeButton = () => {
+  const { isAuthenticated } = useAuth0();
 
   return (
-
     isAuthenticated && (
-    <div>
-        {JSON.stringify(user, null, 4)}
-    </div>
+        <StyledButton onClick={refreshPage}>
+          HOME
+        </StyledButton>
     )
   );
 };
@@ -59,9 +62,6 @@ const Profile = () => {
 async function openPack(id) {
   const response = await fetch("http://localhost:5000/user/open", {
     method: "GET",
-    args: {
-      "pack" : 1
-    },
     headers: {
       "Content-type": "application/json; charset=UTF-8",
       //"Access-Control-Allow-Origin" : "http://localhost",
@@ -89,42 +89,7 @@ async function openPack(id) {
       out = out + "<img width = 200 src=" + packData["SR"][i].url + ">";
   }
 
-//  var count = 0;
-//
-//  const packs = []
-//
-//  while (count < 5){
-//    for (let i = 0; i < packData["C"].length; i++) {
-//        packs[count] = packData["C"][i].url;
-//        count++;
-//    }
-//    for (let i = 0; i < packData["UC"].length; i++) {
-//        packs[count] = packData["UC"][i].url;
-//        count++;
-//    }
-//    for (let i = 0; i < packData["R"].length; i++) {
-//        packs[count] = packData["R"][i].url;
-//        count++;
-//    }
-//    for (let i = 0; i < packData["SR"].length; i++) {
-//        packs[count] = packData["SR"][i].url;
-//        count++;
-//    }
-//  }
-
     document.getElementById("cardOne").innerHTML = out;
-
-//  document.getElementById("cardOne").innerHTML = packs[0];
-//  document.getElementById("cardTwo").innerHTML = packs[1];
-//  document.getElementById("cardThree").innerHTML = packs[2];
-//  document.getElementById("cardFour").innerHTML = packs[3];
-//  document.getElementById("cardFive").innerHTML = packs[4];
-
-//  document.getElementById("cardOne").innerHTML = "<img width = 200 src="+String(packs[0] )+">";
-//  document.getElementById("cardTwo").innerHTML = "<img width = 200 src="+String(packs[1] )+">";
-//  document.getElementById("cardThree").innerHTML = "<img width = 200 src="+String(packs[2] )+">";
-//  document.getElementById("cardFour").innerHTML = "<img width = 200 src="+String(packs[3] )+">";
-//  document.getElementById("cardFive").innerHTML = "<img width = 200 src="+String(packs[4] )+">";
 
 }
 
@@ -188,6 +153,61 @@ const OpenCardPack = () => {
   );
 };
 
+
+async function displayAll(id){
+  const response = await fetch("http://localhost:5000/user/view", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      //"Access-Control-Allow-Origin" : "http://localhost",
+      "pack": "default",
+      "id" : id
+    }
+  });
+
+  const packData = await response.json();
+
+  var out = "";
+
+  for (let i = 0; i < packData["C"].length; i++) {
+      out = out + "<img width = 200 src="+packData["C"][i].url+">";
+  }
+  for (let i = 0; i < packData["UC"].length; i++) {
+      out = out + "<img width = 200 src="+packData["UC"][i].url+">";
+  }
+  for (let i = 0; i < packData["R"].length; i++) {
+    out = out + "<img width = 200 src="+packData["R"][i].url+">";
+  }
+  for (let i = 0; i < packData["SR"].length; i++) {
+    out = out + "<img width = 200 src="+packData["SR"][i].url+">";
+  }
+
+  document.getElementById("cardOne").innerHTML = out;
+
+}
+
+const ViewAllCards = () => {
+  const { user, isAuthenticated } = useAuth0();
+
+  var user_id;
+  try {
+    user_id = String((user.email).split("@", 1));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return (
+
+    isAuthenticated && (
+        <div>
+            <StyledButton onClick={function(){displayAll(user_id)}}>
+              View All Cards
+            </StyledButton>
+        </div>
+    )
+  );
+};
+
 const ShowCards = () => {
   const { user, isAuthenticated } = useAuth0();
 
@@ -196,6 +216,7 @@ const ShowCards = () => {
     isAuthenticated && (
         <div className="col-md">
             <h1 id="cardOne"></h1>
+            <HomeButton />
         </div>
     )
   );
@@ -211,6 +232,7 @@ const Home = (props) => {
         <LoginButton />
         <LogoutButton />
         <OpenCardPack />
+        <ViewAllCards />
         <ShowCards />
 
         <img
