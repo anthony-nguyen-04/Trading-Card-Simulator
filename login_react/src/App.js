@@ -128,6 +128,41 @@ async function openPack(id) {
 
 }
 
+async function displayAll(id){
+  const response = await fetch("http://localhost:5000/user/view", {
+    method: "GET",
+    args: {
+      "pack" : 1
+    },
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      //"Access-Control-Allow-Origin" : "http://localhost",
+      "pack": "default",
+      "id" : id
+    }
+  });
+
+  const packData = await response.json();
+
+  var out = "";
+
+  for (let i = 0; i < packData["C"].length; i++) {
+      out = out + "<img src="+packData["C"][i].url+">";
+  }
+  for (let i = 0; i < packData["UC"].length; i++) {
+      out = out + "<img src="+packData["UC"][i].url+">";
+  }
+  for (let i = 0; i < packData["R"].length; i++) {
+    out = out + "<img src="+packData["R"][i].url+">";
+  }
+  for (let i = 0; i < packData["SR"].length; i++) {
+    out = out + "<img src="+packData["SR"][i].url+">";
+  }
+
+  document.getElementById("cardOne").innerHTML = out;
+
+}
+
 const OpenCardPack = () => {
   const { user, isAuthenticated } = useAuth0();
 
@@ -144,6 +179,9 @@ const OpenCardPack = () => {
         <div>
             <StyledButton onClick={function(){openPack(user_id)}}>
               Open Pack
+            </StyledButton>
+            <StyledButton onClick={function(){displayAll(user_id)}}>
+              View Cards
             </StyledButton>
         </div>
     )
