@@ -170,11 +170,13 @@ def viewUserCards(id):
 
     rarities = ["C", "UC", "R", "SR"]
 
-    for rarity in rarities:
-        print(f"rarity {rarity}:\n")
-        for card in user_cards.get(rarity):
-            print(card)
-        print("----------")
+    return json.loads(json_util.dumps((user_cards)))
+
+    # for rarity in rarities:
+    #     print(f"rarity {rarity}:\n")
+    #     for card in user_cards.get(rarity):
+    #         print(card)
+    #     print("----------")
 
 def printAllCards():
     print(list(common.find()))
