@@ -126,6 +126,7 @@ def openPack(id):
     user_data = users.find_one({"id" : id})
     user_cards = user_data.get("cards")
 
+
     # for card in pack:
     #     if card == "C":
     #         user_cards.get("C").append(random.choice(common))
@@ -139,15 +140,25 @@ def openPack(id):
     new_pack = {"C":[], "UC":[], "R":[], "SR":[]}
     for card in pack:
         if card == "C":
-            new_pack.get("C").append(random.choice(common))
-        elif card == "UC":
-            new_pack.get("UC").append(random.choice(uncommon))
-        elif card == "R":
-            new_pack.get("R").append(random.choice(rare))
-        else:
-            new_pack.get("SR").append(random.choice(superRare))
+            c_card = random.choice(common)
+            user_cards.get("C").append(c_card)
+            new_pack.get("C").append(c_card)
 
-    user_cards.update(new_pack)
+        elif card == "UC":
+            uc_card = random.choice(uncommon)
+            user_cards.get("C").append(uc_card)
+            new_pack.get("UC").append(uc_card)
+
+        elif card == "R":
+            r_card = random.choice(rare)
+            user_cards.get("R").append(r_card)
+            new_pack.get("R").append(r_card)
+
+        else:
+            sr_card = random.choice(superRare)
+            user_cards.get("SR").append(sr_card)
+            new_pack.get("SR").append(sr_card)
+
 
     users.update_one({"id" : id}, {"$set" : {"cards" : user_cards}})
 

@@ -11,7 +11,16 @@ services:
       - FLASK_DEBUG=1
       - FLASK_APP=flaskServer.py
       
-  card_client_test:
+  login_react:
+    build:
+      context: .
+      dockerfile: login_react/dockerfile
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+      
+  client_test:
     build:
       context: .
       dockerfile: card_client_test/dockerfile
